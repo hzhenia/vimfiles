@@ -1,0 +1,168 @@
+nnoremap <leader>g :grep -R '<cWORD>' .<cr>
+
+"Colorschema
+syntax enable
+set background=dark
+colorscheme solarized
+
+nnoremap dd O<esc>jddk
+"plugin manager
+filetype off
+call pathogen#infect()
+call pathogen#helptags()
+filetype plugin indent on "enable loading indent file for filetype
+
+"Rebind leader key
+let mapleader=","
+
+"Disable backup,swap file
+set nobackup
+set nowritebackup
+set noswapfile
+
+"Copy and paste seting
+set pastetoggle=<F2>
+
+
+"folding
+set foldmethod=marker
+set foldlevel=99
+autocmd Filetype c,cpp,d,perl,java,cs set foldmethod=syntax
+autocmd Filetype python,xml set foldmethod=indent
+set foldcolumn=4
+highlight Folded ctermfg=6 ctermbg=0
+highlight FoldColumn ctermfg=6 ctermbg=0
+
+
+"windows movement
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+"Tab movement
+map <Leader>tn <esc>:tabprevious<CR>
+map <Leader>tm <esc>:tabnext<CR>
+
+"movement in insert mode
+inoremap <A-h> <C-o>h
+inoremap <A-j> <C-o>j
+inoremap <A-k> <C-o>k
+inoremap <A-l> <C-o>l
+
+"Advanced movement
+"cin( change paramenter of function, for example def paidsfasd(sdfs sdfsdf),
+"cursor in def -> ci( change sdfs..
+"f(: move forward for nearest(, thend vi( select visual inside ()
+:onoremap in( :<c-u>normal! f(vi(<cr>
+
+
+"Move block of code
+"working on visual mode
+vnoremap < <gv
+vnoremap > >gv
+
+"show line number
+set number
+set autoindent
+set smartindent
+set ruler
+set softtabstop=3
+
+"Status line
+"set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\
+set statusline+=%f\ -\ FileType:\ %y
+set laststatus=2 " allway show statusline"
+set statusline=%F%m%r%h%w\ [TYPE=%Y\ %{&ff}]\
+			\ [%l/%L\ (%p%%)]
+hi StatusLine ctermbg=white ctermfg=blue
+
+
+
+"Task list
+map <leader>td <Plug>TaskList
+
+"Revision history
+"use gundo
+map <leader>u :GundoToggle<CR>
+
+"Hightlight and validation
+syntax on
+
+"Encoding
+set enc=utf-8
+set fileencoding=utf-8
+
+
+let g:pyflakes_use_quickfix=0 " quick fix error, unused import etc...
+
+"Pep8: validate code
+let g:pep8_map='<leader>8'
+
+"Tab completeion and documentation
+" using supertab
+au FileType python set omnifunc=pythoncomplete " complete
+let g:SuperTabDefaultCompletionType = "context"
+
+"code completion, pydoc preview
+set completeopt=menuone,longest,preview
+"jedi: Auto completion
+let g:jedi#completion_command="<C-Space>"
+
+"Code navigation
+"using :b 
+
+"Fuzzy text file search
+"command T plugin
+"using: <leader>t
+"opened buffer: <leader>b
+
+
+"File Browser
+map <leader>e :NERDTreeToggle<CR>
+
+"Refactor and Goto definition
+"Ropevim
+"map <leader>g :RopeGotoDefinition<CR>
+map <leader>r :RopeRename<CR>
+
+"Searching: Ack plugin
+nmap <leader>a <Esc>:Ack!
+
+"Tagbar, tag browsing
+
+let g:tagbar_usearrows = 1
+nnoremap <leader>l :TagbarToggle<CR>
+
+function! InsertStatuslineColor(mode)
+  if a:mode == 'i'
+    hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=0
+  elseif a:mode == 'r'
+    hi statusline guibg=Purple ctermfg=5 guifg=Black ctermbg=0
+  else
+    hi statusline guibg=DarkRed ctermfg=1 guifg=Black ctermbg=0
+  endif
+endfunction
+
+au InsertEnter * call InsertStatuslineColor(v:insertmode)
+au InsertLeave * hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
+
+" default the statusline to green when entering Vim
+hi statusline guibg=DarkGrey ctermfg=8 guifg=White ctermbg=15
+
+" Formats the statusline
+set statusline=%f                           " file name
+set statusline+=[%{strlen(&fenc)?&fenc:'none'}, "file encoding
+set statusline+=%{&ff}] "file format
+set statusline+=%y      "filetype
+set statusline+=%h      "help file flag
+set statusline+=%m      "modified flag
+set statusline+=%r      "read only flag
+
+
+
+set statusline+=\ %=                        " align left
+set statusline+=Line:%l/%L[%p%%]            " line X of Y [percent of file]
+set statusline+=\ Col:%c                    " current column
+set statusline+=\ Buf:%n                    " Buffer number
+set statusline+=\ [%b][0x%B]\               " ASCII and byte code under cursor
+
